@@ -1,0 +1,37 @@
+VERSION 0.6
+FROM golang:1.19.3-alpine
+WORKDIR /aod
+
+deps:
+    COPY go.mod go.sum ./
+    RUN go mod download
+    # Output these back in case go mod download changes them.
+    SAVE ARTIFACT go.mod AS LOCAL go.mod
+    SAVE ARTIFACT go.sum AS LOCAL go.sum
+
+build:
+    FROM +deps
+    COPY *.go .
+    RUN go build -o dist/solution *.go
+    SAVE ARTIFACT dist/solution AS LOCAL dist/solution
+
+
+run:
+    FROM +build
+
+    COPY data ./data
+    COPY +build/solution .
+
+    RUN --no-cache /aod/solution ./data/part_two.txt
+
+bench:
+    FROM +deps
+    COPY *.go .
+    COPY data ./data
+    RUN go test -bench=. -benchmem
+
+docker:
+    COPY +build/solution .
+    COPY data ./data
+    ENTRYPOINT ["/aod/solution", "data/part_two.txt"]
+    SAVE IMAGE aod-2022-1:latest

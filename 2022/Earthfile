@@ -1,0 +1,13 @@
+VERSION 0.6
+
+build:
+  BUILD ./1+build
+
+run:
+  BUILD ./1+run
+
+bench:
+  BUILD ./1+bench
+
+docker:
+  BUILD ./1+docker
