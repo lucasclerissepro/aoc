@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"sort"
 	"strings"
 
 	"golang.org/x/exp/constraints"
@@ -30,19 +31,12 @@ func Topk(tokens []string, k int) ([]int, error) {
 		if tokens[i] == END_OF_ELF {
 
 			// Find index of the lowest calories.
-			index := 0
-			found := false
-			for ; index < k; index++ {
-				if tops[index] <= totalCalories {
-					found = true
-					break
-				}
-			}
+			index := sort.Search(len(tops), func(i int) bool { return tops[i] <= totalCalories })
 
 			// If index of the lowest calories is equal to k, then we set the latest
 			// element to the total calories if it is greater than the lowest calories.
 			if index == k {
-				if found {
+				if tops[index-1] < totalCalories {
 					tops[index-1] = totalCalories
 				}
 				totalCalories = 0
