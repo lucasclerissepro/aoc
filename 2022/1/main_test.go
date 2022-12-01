@@ -12,9 +12,9 @@ func benchmarkSolution(k int, b *testing.B) {
 	if err != nil {
 		b.Fatalf("failed to read input: %s", err)
 	}
+	tokens := strings.Split(string(input), "\n")
 
 	b.Run("solution", func(b *testing.B) {
-		tokens := strings.Split(string(input), "\n")
 		for n := 0; n < b.N; n++ {
 			tops, err := Topk(tokens, k)
 			if len(tops) != k || err != nil {
