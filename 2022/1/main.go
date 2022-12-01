@@ -4,27 +4,41 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"sort"
-	"strconv"
 	"strings"
 
 	"golang.org/x/exp/constraints"
 )
+
+func FastAtoi(s string) int {
+	var val int
+
+	for _, c := range s {
+		val = val*10 + int(c-'0')
+	}
+
+	return val
+}
 
 // Topk returns the top k elves with the highest total calories.
 func Topk(tokens []string, k int) ([]int, error) {
 	tops := make([]int, k)
 	totalCalories := 0
 
-	for _, token := range tokens {
-		if token == "" {
-			index := sort.Search(k, func(index int) bool { return tops[index] <= totalCalories })
+	for i := 0; i < len(tokens); i++ {
+		if tokens[i] == "" {
 
-			if index >= k {
-				// sort.Search returns the index of last element if it could not find the
-				// element using predicate. This condition just make sure we only replace
-				// last element only if the new topCalories is bigger.
-				if totalCalories > tops[index-1] {
+			// Find index of the lowest calories.
+			index := 0
+			found := false
+			for ; index < k; index++ {
+				if tops[index] <= totalCalories {
+					break
+				}
+			}
+
+			// If the index of lowest calories is less than k
+			if index == k {
+				if found {
 					tops[index-1] = totalCalories
 				}
 				totalCalories = 0
@@ -39,11 +53,7 @@ func Topk(tokens []string, k int) ([]int, error) {
 			continue
 		}
 
-		cal, err := strconv.Atoi(token)
-		if err != nil {
-			log.Fatalf("failed to parse calories: %s", err)
-		}
-
+		cal := FastAtoi(tokens[i])
 		totalCalories += cal
 	}
 
