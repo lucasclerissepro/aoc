@@ -9,6 +9,8 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
+const END_OF_ELF = ""
+
 func FastAtoi(s string) int {
 	var val int
 
@@ -25,18 +27,20 @@ func Topk(tokens []string, k int) ([]int, error) {
 	totalCalories := 0
 
 	for i := 0; i < len(tokens); i++ {
-		if tokens[i] == "" {
+		if tokens[i] == END_OF_ELF {
 
 			// Find index of the lowest calories.
 			index := 0
 			found := false
 			for ; index < k; index++ {
 				if tops[index] <= totalCalories {
+					found = true
 					break
 				}
 			}
 
-			// If the index of lowest calories is less than k
+			// If index of the lowest calories is equal to k, then we set the latest
+			// element to the total calories if it is greater than the lowest calories.
 			if index == k {
 				if found {
 					tops[index-1] = totalCalories

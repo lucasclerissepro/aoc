@@ -30,6 +30,12 @@ bench:
     COPY data ./data
     RUN go test -bench=. -benchmem
 
+clean:
+  LOCALLY
+  RUN rm -rf dist
+  RUN rm -rf *.out
+  RUN rm -rf *.test
+
 docker:
     COPY +build/solution .
     COPY data ./data
