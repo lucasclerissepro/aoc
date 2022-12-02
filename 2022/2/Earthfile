@@ -46,4 +46,4 @@ docker:
     COPY data ./data
     ENTRYPOINT ["/aoc/solution", "data/input.txt"]
     LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
-    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-2022-1:latest
+    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-2022-2:latest

@@ -1,13 +1,43 @@
 VERSION 0.6
 
+new:
+  LOCALLY 
+
+  ARG day
+  RUN cp -r template "$day" 
+
 build:
-  BUILD ./1+build
+  LOCALLY 
+  FOR dir IN $(ls -d */)
+    BUILD "./$dir+build"
+  END
 
 run:
-  BUILD ./1+run
+  LOCALLY 
+  FOR dir IN $(ls -d */)
+    BUILD "./$dir+run"
+  END
+
+fmt:
+  LOCALLY 
+  FOR dir IN $(ls -d */)
+    BUILD "./$dir+fmt"
+  END
+
+clean:
+  LOCALLY 
+  FOR dir IN $(ls -d */)
+    BUILD "./$dir+clean"
+  END
 
 bench:
-  BUILD ./1+bench
+  LOCALLY 
+  FOR dir IN $(ls -d */)
+    BUILD "./$dir+bench"
+  END
 
 docker:
-  BUILD ./1+docker
+  LOCALLY 
+  FOR dir IN $(ls -d */)
+    BUILD "./$dir+docker"
+  END

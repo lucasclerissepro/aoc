@@ -8,7 +8,7 @@ import (
 )
 
 func benchmarkSolution(k int, b *testing.B) {
-	input, err := os.ReadFile("data/part_two.txt")
+	input, err := os.ReadFile("data/input.txt")
 	if err != nil {
 		b.Fatalf("failed to read input: %s", err)
 	}
