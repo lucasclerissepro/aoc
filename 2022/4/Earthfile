@@ -30,10 +30,6 @@ run:
     RUN --no-cache /aoc/solution ./data/input.txt two
 
 bench:
-    FROM +deps
-    COPY *.go .
-    COPY data ./data
-    RUN --no-cache go test -bench=. -benchmem -benchtime=5s
 
 clean:
   LOCALLY
@@ -46,4 +42,4 @@ docker:
     COPY data ./data
     ENTRYPOINT ["/aoc/solution", "data/input.txt", "two"]
     LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
-    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-2022-3:latest
+    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-2022-4:latest
