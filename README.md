@@ -20,3 +20,22 @@ cd 2022/1
 earthly +run
 ```
 
+
+## Trying out
+
+There's docker images built for every day so you can run it:
+
+```shell
+
+# Day 1
+docker run ghcr.io/lucasclerissepro/aoc-2022-1:latest 
+
+# Day 2
+docker run ghcr.io/lucasclerissepro/aoc-2022-2:latest
+
+# Day 3
+docker run ghcr.io/lucasclerissepro/aoc-2022-3:latest
+
+...
+
+```
