@@ -16,6 +16,8 @@ func BenchmarkSolution(b *testing.B) {
 	lines := strings.Split(string(input), "\n")
 
 	b.Run("Solution", func(b *testing.B) {
-		Solution(lines)
+		for i := 0; i < b.N; i++ {
+			Solution(lines)
+		}
 	})
 }
