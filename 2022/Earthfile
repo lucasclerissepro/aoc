@@ -4,7 +4,7 @@ new:
   LOCALLY 
 
   ARG day
-  RUN cp -r template "$day" 
+  RUN cp -r .template "$day" 
 
 build:
   LOCALLY 
