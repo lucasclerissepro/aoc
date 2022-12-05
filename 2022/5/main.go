@@ -62,7 +62,7 @@ func (s *Stack) Peek() string {
 }
 
 // SplitSpecs split the input into header and moves
-func SplitSpecs(lines []string) ([]string, []string) {
+func ParseSections(lines []string) ([]string, []string) {
 	moveSectionIdx := 0
 	for i := 0; i < len(lines); i++ {
 		if lines[i] == "" {
@@ -130,7 +130,7 @@ func ForeachMoves(moves []string, f MoveFunc) {
 }
 
 func SolutionA(lines []string) string {
-	header, moves := SplitSpecs(lines)
+	header, moves := ParseSections(lines)
 	stacks := ParseStacks(header)
 
 	ForeachMoves(moves, func(quantity, from, to int) {
@@ -148,7 +148,7 @@ func SolutionA(lines []string) string {
 }
 
 func SolutionB(lines []string) string {
-	header, moves := SplitSpecs(lines)
+	header, moves := ParseSections(lines)
 	stacks := ParseStacks(header)
 
 	ForeachMoves(moves, func(quantity, from, to int) {
