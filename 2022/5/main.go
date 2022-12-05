@@ -61,7 +61,6 @@ func (s *Stack) Peek() string {
 	return (*s)[len(*s)-1]
 }
 
-
 // SplitSpecs split the input into header and moves
 func SplitSpecs(lines []string) ([]string, []string) {
 	moveSectionIdx := 0
