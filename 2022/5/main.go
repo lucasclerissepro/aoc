@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -96,6 +95,15 @@ func ParseStacks(lines []string) []Stack {
 	return stacks
 }
 
+// FastAtoi is a faster version from standard library
+func FastAtoi(s string) int {
+	var val int
+	for _, c := range s {
+		val = val*10 + int(c-'0')
+	}
+	return val
+}
+
 // A fonction that runs some actions given the move to do
 type MoveFunc func(int, int, int)
 
@@ -119,7 +127,7 @@ func ForeachMoves(moves []string, f MoveFunc) {
 					digit += string(moves[i][k])
 					j = k
 				}
-				m[cursor], _ = strconv.Atoi(digit)
+				m[cursor] = FastAtoi(digit)
 				digit = ""
 				cursor++
 			}
