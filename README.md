@@ -27,15 +27,14 @@ There's docker images built for every day so you can run it:
 
 ```shell
 
-# Day 1
-docker run ghcr.io/lucasclerissepro/aoc-2022-1:latest 
+# Day 1 part one
+docker run -v $(pwd)/data/input.txt:/aoc/data/input.txt ghcr.io/lucasclerissepro/aoc-2022-1-one:latest 
 
-# Day 2
-docker run ghcr.io/lucasclerissepro/aoc-2022-2:latest
-
-# Day 3
-docker run ghcr.io/lucasclerissepro/aoc-2022-3:latest
+# Day 1 part two
+docker run -v $(pwd)/data/input.txt:/aoc/data/input.txt ghcr.io/lucasclerissepro/aoc-2022-1-two:latest 
 
 ...
 
 ```
+
+You can mount any input in the container at the path `/aoc/data/input.txt`

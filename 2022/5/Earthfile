@@ -54,19 +54,17 @@ clean:
   RUN rm -rf *.test
 
 docker:
-    BUILD +docker-part-one
-    BUILD +docker-part-two
+    BUILD +docker-one
+    BUILD +docker-two
 
-docker-part-one:
+docker-one:
     COPY +build/solution .
-    COPY data ./data
     ENTRYPOINT ["/aoc/solution", "data/input.txt", "one"]
     LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
     SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-2022-5-one:latest
 
-docker-part-two:
+docker-two:
     COPY +build/solution .
-    COPY data ./data
     ENTRYPOINT ["/aoc/solution", "data/input.txt", "two"]
     LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
     SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-2022-5-two:latest
