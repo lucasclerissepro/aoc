@@ -55,13 +55,13 @@ func main() {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-  // catch signals
-  go func() {
-    sig := make(chan os.Signal, 1)
-    signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
-    <-sig
-    cancel()
-  }()
+	// catch signals
+	go func() {
+		sig := make(chan os.Signal, 1)
+		signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
+		<-sig
+		cancel()
+	}()
 
 	input, err := fetchInput(ctx)
 	if err != nil {

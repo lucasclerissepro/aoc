@@ -11,11 +11,11 @@ import (
 )
 
 func SolutionA(lines []string) string {
-	return "B"
+	return "A"
 }
 
 func SolutionB(lines []string) string {
-	return "A"
+	return "B"
 }
 
 func main() {
