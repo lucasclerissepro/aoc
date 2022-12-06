@@ -1,0 +1,60 @@
+VERSION 0.6
+FROM golang:1.19.3-alpine
+WORKDIR /aoc
+
+deps:
+    COPY go.mod ./
+    RUN go mod download
+    # Output these back in case go mod download changes them.
+    SAVE ARTIFACT go.mod AS LOCAL go.mod
+    #SAVE ARTIFACT go.sum AS LOCAL go.sum
+
+build:
+    FROM +deps
+    COPY *.go .
+    RUN go build -o dist/fetch *.go
+    SAVE ARTIFACT dist/fetch AS LOCAL dist/fetch
+
+fmt:
+    FROM +deps
+    COPY *.go .
+    RUN go fmt *.go
+    SAVE ARTIFACT *.go AS LOCAL .
+
+run:
+    FROM +build
+
+    ARG day=1
+    ARG year=2022
+    ARG --required session
+    ARG --required output
+
+    COPY +build/fetch .
+
+    RUN --no-cache /aoc/fetch -d "$day" -y "$year" -s "$session" -o "./input.txt"
+
+    SAVE ARTIFACT input.txt 
+
+FETCH:
+  COMMAND
+  ARG --required day
+  ARG --required year
+  ARG --required session
+  ARG --required output
+
+  BUILD +run --output "./input.txt" --session $session --day $day --year $year 
+  COPY (+run/input.txt --output "./input.txt" --session $session --day $day --year $year) input.txt
+
+  SAVE ARTIFACT input.txt AS LOCAL $output
+
+clean:
+  LOCALLY
+  RUN rm -rf dist
+  RUN rm -rf *.out
+  RUN rm -rf *.test
+
+docker:
+    COPY +build/fetch .
+    CMD ["/aoc/fetch"]
+    LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
+    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-fetch:latest

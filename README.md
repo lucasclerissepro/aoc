@@ -1,6 +1,9 @@
 # Advent of code
 
-Storing all of advent of code answers in this repository.
+Storing all of advent of code answers in this repository. 
+
+> The code stored in this repository does not reflect the real submissions 
+> i'm doing everyday and is refactored to be faster and more readable.
 
 ## Getting started
 
