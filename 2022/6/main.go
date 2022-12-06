@@ -22,14 +22,14 @@ func Unique(slice string) bool {
 }
 
 func FindSequenceN(buffer string, n int) int {
-  for i := 0; i < len(buffer)-n; i++ {
-    b := buffer[i : i+n]
-    if Unique(b) {
-      return i + n
-    }
-  }
+	for i := 0; i < len(buffer)-n; i++ {
+		b := buffer[i : i+n]
+		if Unique(b) {
+			return i + n
+		}
+	}
 
-  return -1
+	return -1
 }
 
 func SolutionA(buffer string) int {
@@ -37,7 +37,7 @@ func SolutionA(buffer string) int {
 }
 
 func SolutionB(buffer string) int {
-  return FindSequenceN(buffer, 14)
+	return FindSequenceN(buffer, 14)
 }
 
 func main() {
