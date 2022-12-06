@@ -45,7 +45,7 @@ bench:
     FROM +deps
     COPY *.go .
     COPY data ./data
-    RUN --no-cache go test -bench=. -benchmem -benchtime=5s
+    RUN --no-cache go test -bench=. -benchmem -benchtime=30s
 
 clean:
   LOCALLY

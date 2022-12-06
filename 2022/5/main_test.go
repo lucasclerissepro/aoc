@@ -38,3 +38,36 @@ func BenchmarkSolutionB(b *testing.B) {
     }
 	})
 }
+
+
+func BenchmarkSolutionAF(b *testing.B) {
+	// open file
+	input, err := ioutil.ReadFile("./data/input.txt")
+	if err != nil {
+		log.Fatalf("failed to open file: %s", err)
+	}
+
+	lines := strings.Split(string(input), "\n")
+
+	b.Run("SolutionAFabien", func(b *testing.B) {
+		for n := 0; n < b.N; n++ {
+		  ex1(lines)
+    }
+	})
+}
+
+func BenchmarkSolutionBF(b *testing.B) {
+	// open file
+	input, err := ioutil.ReadFile("./data/input.txt")
+	if err != nil {
+		log.Fatalf("failed to open file: %s", err)
+	}
+
+	lines := strings.Split(string(input), "\n")
+
+	b.Run("SolutionBFabien", func(b *testing.B) {
+		for n := 0; n < b.N; n++ {
+		  ex2(lines)
+    }
+	})
+}

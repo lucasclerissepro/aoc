@@ -117,18 +117,19 @@ func ForeachMoves(moves []string, f MoveFunc) {
 		// get all digit from the string without using regex
 		m := make([]int, 3)
 		cursor := 0
-		digit := ""
+		digit := []byte{}
 		for j := 0; j < len(moves[i]); j++ {
 			if moves[i][j] >= '0' && moves[i][j] <= '9' {
 				for k := j; k < len(moves[i]); k++ {
 					if moves[i][k] < '0' || moves[i][k] > '9' {
 						break
 					}
-					digit += string(moves[i][k])
+					digit = append(digit, moves[i][k])
 					j = k
 				}
-				m[cursor] = FastAtoi(digit)
-				digit = ""
+
+				m[cursor] = FastAtoi(string(digit))
+				digit = []byte{}
 				cursor++
 			}
 		}
@@ -147,12 +148,12 @@ func SolutionA(lines []string) string {
 		}
 	})
 
-	ans := ""
+	ans := []byte{}
 	for i := 0; i < len(stacks); i++ {
-		ans += stacks[i].Peek()
+		ans = append(ans, stacks[i].Peek()...)
 	}
 
-	return ans
+	return string(ans)
 }
 
 func SolutionB(lines []string) string {
@@ -163,12 +164,12 @@ func SolutionB(lines []string) string {
 		stacks[to-1].PushAll(stacks[from-1].PopN(quantity))
 	})
 
-	ans := ""
+	ans := []byte{}
 	for i := 0; i < len(stacks); i++ {
-		ans += stacks[i].Peek()
+		ans = append(ans, stacks[i].Peek()...)
 	}
 
-	return ans
+	return string(ans)
 }
 
 func main() {

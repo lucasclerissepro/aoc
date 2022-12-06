@@ -3,7 +3,7 @@ FROM golang:1.19.3-alpine
 WORKDIR /aoc
 
 ARG AOC_YEAR=2022
-ARG AOC_DAY=5
+ARG AOC_DAY=6
 
 deps:
     COPY go.mod go.sum ./

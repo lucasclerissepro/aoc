@@ -4,7 +4,9 @@ new:
   LOCALLY 
 
   ARG day
-  RUN cp -r .template "$day" 
+  RUN cp -r .template "$day"
+
+  RUN sed -r "s:AOC_DAY=5:AOC_DAY=$day:g" -i "$day/Earthfile"
 
 build:
   LOCALLY 
