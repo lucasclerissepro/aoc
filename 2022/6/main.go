@@ -7,15 +7,37 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
 )
 
-func SolutionA(lines []string) string {
-	return "A"
+// Unique returns true if the string contains only unique characters
+func Unique(slice string) bool {
+	m := make(map[rune]bool)
+	for _, v := range slice {
+		if m[v] {
+			return false
+		}
+		m[v] = true
+	}
+	return true
 }
 
-func SolutionB(lines []string) string {
-	return "B"
+func FindSequenceN(buffer string, n int) int {
+  for i := 0; i < len(buffer)-n; i++ {
+    b := buffer[i : i+n]
+    if Unique(b) {
+      return i + n
+    }
+  }
+
+  return -1
+}
+
+func SolutionA(buffer string) int {
+	return FindSequenceN(buffer, 4)
+}
+
+func SolutionB(buffer string) int {
+  return FindSequenceN(buffer, 14)
 }
 
 func main() {
@@ -30,11 +52,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	lines := strings.Split(string(input), "\n")
 	if os.Args[2] == "one" {
-		fmt.Println("Solution is: ", SolutionA(lines))
+		fmt.Println("Solution is: ", SolutionA(string(input)))
 		os.Exit(0)
 	}
 
-	fmt.Println("Solution is: ", SolutionB(lines))
+	fmt.Println("Solution is: ", SolutionB(string(input)))
 }
