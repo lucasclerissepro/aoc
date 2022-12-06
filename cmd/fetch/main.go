@@ -9,14 +9,16 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"syscall"
 )
 
 var (
-	day   = flag.Int("d", 0, "advent of code day")
-	year  = flag.Int("y", 2022, "advent of code year")
+	day     = flag.Int("d", 0, "advent of code day")
+	year    = flag.Int("y", 2022, "advent of code year")
 	session = flag.String("s", "", "session from cookie called `session`")
-  dest = flag.String("o", "", "file where to register the input")
+	dest    = flag.String("o", "", "file where to register the input")
 )
 
 func fetchInput(ctx context.Context) ([]byte, error) {
@@ -53,12 +55,20 @@ func main() {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-  input, err := fetchInput(ctx)
-  if err != nil {
-    log.Fatalf("Failed to fetch input: %v", err)
-  }
+  // catch signals
+  go func() {
+    sig := make(chan os.Signal, 1)
+    signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
+    <-sig
+    cancel()
+  }()
 
-  if err := os.WriteFile(*dest, input, 0644); err != nil {
-    log.Fatalf("Failed to write input to destination: %v", err)
-  }
+	input, err := fetchInput(ctx)
+	if err != nil {
+		log.Fatalf("Failed to fetch input: %v", err)
+	}
+
+	if err := os.WriteFile(*dest, input, 0644); err != nil {
+		log.Fatalf("Failed to write input to destination: %v", err)
+	}
 }
