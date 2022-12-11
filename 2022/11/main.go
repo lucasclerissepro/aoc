@@ -170,7 +170,7 @@ func Input() []*Monkey {
 }
 
 func Compute(monkeys []*Monkey, postProcess func(float64) float64, rounds int) int {
-	for r := 0; r < 10_000; r++ {
+	for r := 0; r < rounds; r++ {
 		for m := 0; m < len(monkeys); m++ {
 			monkeys[m].Round(postProcess)
 		}
