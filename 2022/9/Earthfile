@@ -1,0 +1,78 @@
+VERSION 0.6
+FROM golang:1.19.3-alpine
+WORKDIR /aoc
+
+ARG AOC_YEAR=2022
+ARG AOC_DAY=9
+
+deps:
+    COPY go.mod go.sum ./
+    RUN go mod download
+    # Output these back in case go mod download changes them.
+    SAVE ARTIFACT go.mod AS LOCAL go.mod
+    SAVE ARTIFACT go.sum AS LOCAL go.sum
+
+build:
+    FROM +deps
+    COPY *.go .
+    RUN go build -o dist/solution *.go
+    SAVE ARTIFACT dist/solution AS LOCAL dist/solution
+
+fmt:
+    FROM +deps
+    COPY *.go .
+    RUN go fmt *.go
+    SAVE ARTIFACT *.go AS LOCAL .
+
+fetch:
+  ARG --required session
+
+  DO ../../cmd/fetch+FETCH --year $AOC_YEAR --day $AOC_DAY --output ./data/input.txt --session $session
+
+run:
+    BUILD +run-one
+    BUILD +run-two
+
+run-one:
+    FROM +build
+
+    COPY data ./data
+    COPY +build/solution .
+
+    RUN --no-cache /aoc/solution ./data/input.txt one
+
+run-two:
+    FROM +build
+
+    COPY data ./data
+    COPY +build/solution .
+
+    RUN --no-cache /aoc/solution ./data/input.txt two
+
+bench:
+    FROM +deps
+    COPY *.go .
+    COPY data ./data
+    RUN --no-cache go test -bench=. -benchmem -benchtime=30s
+
+clean:
+  LOCALLY
+  RUN rm -rf dist
+  RUN rm -rf *.out
+  RUN rm -rf *.test
+
+docker:
+    BUILD +docker-one
+    BUILD +docker-two
+
+docker-one:
+    COPY +build/solution .
+    ENTRYPOINT ["/aoc/solution", "data/input.txt", "one"]
+    LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
+    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-$AOC_YEAR-$AOC_DAY-one:latest
+
+docker-two:
+    COPY +build/solution .
+    ENTRYPOINT ["/aoc/solution", "data/input.txt", "two"]
+    LABEL org.opencontainers.image.source=https://github.com/lucasclerissepro/aoc
+    SAVE IMAGE --push ghcr.io/lucasclerissepro/aoc-$AOC_YEAR-$AOC_DAY-two:latest
