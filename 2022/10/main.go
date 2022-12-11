@@ -56,8 +56,9 @@ var instructions = []Instruction{
 // instruction.
 func ForEachInstruction(lines []string, f func(*Instruction, int, int) error) error {
 	var err error
-	var cycles int = 1
-	var x int = 1
+
+	cycles := 1
+	x := 1
 
 	for i := 0; i < len(lines); i++ {
 		for tx := 0; tx < len(instructions); tx++ {
@@ -97,9 +98,9 @@ func ForEachInstruction(lines []string, f func(*Instruction, int, int) error) er
 }
 
 func SolutionA(lines []string) int {
-	var nextMilestone int
-
-	var milestones = []int{
+	ans := []int{}
+	nextMilestone := 0
+	milestones := []int{
 		20,
 		60,
 		100,
@@ -107,8 +108,6 @@ func SolutionA(lines []string) int {
 		180,
 		220,
 	}
-
-	ans := []int{}
 
 	err := ForEachInstruction(lines, func(instruction *Instruction, cycles int, x int) error {
 		if nextMilestone < len(milestones) && cycles == milestones[nextMilestone] {
